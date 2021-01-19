@@ -49,32 +49,6 @@ def help_command(update: Update, context: CallbackContext) -> None:
     """Send a message when the command /help is issued."""
     update.message.reply_text(aide)
 
-
-""" Methode original utilisee
-def lyrics(update: Update, context: CallbackContext) -> None:
-    '''Reply with the lyrics to a song'''
-    #update.message.reply_text("Veuillez entrer l'artiste de la chanson que vous souhaitez trouver.")
-    reponse = update.message.text
-    reponse = reponse.split(' ')[1:]
-    reponse = " ".join(reponse)
-    update.message.reply_text(reponse)
-    reponse = reponse.split(', ')
-    artist_name = reponse[0]
-    song_name=reponse[1]
-    update.message.reply_text("fetching lyrics, please wait")
-    #artist_name = update.message.text
-    artist = genius.search_artist(artist_name, max_songs=0)
-    #update.message.reply_text("Veuillez entrer la chanson.")
-    song = artist.song(song_name)
-    update.message.reply_text(song.lyrics)
-    if song.album == song.artist:
-        output = "\n\nReleased le " + song.year + " sur l'album éponyme de " + song.artist
-    else:
-        output = "\n\nReleased le " + song.year + " sur l'album " + song.album
-    update.message.reply_text(output)
-"""
-
-
 def intro(update: Update, context: CallbackContext) -> int:
     if switch:
         artist_name = ''
@@ -112,18 +86,6 @@ def oui(artist_name):
 
 def quit(update: Update, context: CallbackContext):
     return ConversationHandler.END
-
-
-"""
-def echo(update: Update, context: CallbackContext) -> None:
-    ""Echo the user message.""
-    print(update.message.text)
-    if(update.message.text == 'tes laid'):
-        update.message.reply_text('toe tout big nocap tabarnak tu fait pitié')
-    else:
-        update.message.reply_text(update.message.text)
-"""
-
 
 def main():
     """Ceci start monsieur Denis"""
