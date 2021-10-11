@@ -13,7 +13,6 @@ from telegram.ext import (
     CallbackContext,
     ConversationHandler
 )
-import telegram
 
 switch = False
 
@@ -49,6 +48,7 @@ def help_command(update: Update, context: CallbackContext) -> None:
     """Send a message when the command /help is issued."""
     update.message.reply_text(aide)
 
+
 def intro(update: Update, context: CallbackContext) -> int:
     if switch:
         artist_name = ''
@@ -57,9 +57,9 @@ def intro(update: Update, context: CallbackContext) -> int:
 
 
 def artist(update: Update, context: CallbackContext) -> int:
-    update.message.reply_text("oui")
     global artist_name
     artist_name = update.message.text
+    # artist_name = "eminem"
     # This variable needs to be stored globally to be retrieved in the next state
     # artist = genius.search_artist(artist_name, max_songs=0)
     update.message.reply_text('Enter song title')
@@ -69,12 +69,26 @@ def artist(update: Update, context: CallbackContext) -> int:
 
 def title(update: Update, context: CallbackContext) -> int:
     song_name = update.message.text
-    update.message.reply_text(artist_name + ', ' + song_name)
+    # song_name = "rap god"
     time.sleep(1)
     update.message.reply_text("I'm thinking...")
     artists = genius.search_artist(artist_name, max_songs=0)
     song = artists.song(song_name)
-    update.message.reply_text(song.lyrics)
+    sizelimit = (len(song.lyrics) / 4096)
+    print(sizelimit)
+    if (sizelimit > 1):
+        sizelimit = int(sizelimit)
+        for number in range(int(sizelimit + 1)):
+            print("pipi au lit")
+            print(number * 4096)
+            print(number+1 * 4096)
+            print(number)
+            if len(song.lyrics) < (number + 1) * 4096:
+                update.message.reply_text(song.lyrics[number * 4096:len(song.lyrics)])
+            else:
+                update.message.reply_text(song.lyrics[number * 4096:(number + 1) * 4096])
+    else:
+        update.message.reply_text(song.lyrics)
     # return ConversationHandler.END to end the conversation
     switch = True
     return ConversationHandler.END
@@ -86,6 +100,7 @@ def oui(artist_name):
 
 def quit(update: Update, context: CallbackContext):
     return ConversationHandler.END
+
 
 def main():
     """Ceci start monsieur Denis"""
